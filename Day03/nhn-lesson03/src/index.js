@@ -1,13 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './App';
+import NhnApp from './NhnApp';
 import reportWebVitals from './reportWebVitals';
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
+const Nhnroot = ReactDOM.createRoot(document.getElementById('Nhnroot'));
+Nhnroot.render(
   <React.StrictMode>
-    <App />
+    <NhnApp />
   </React.StrictMode>
 );
 
