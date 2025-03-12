@@ -14,7 +14,7 @@ export default function NhnUseState() {
     NhnHandleAddNewRandom = ()=>{
         setList(prev =>{
             [...prev,
-                parseInt(Math.random()*100)
+                parseInt(Math.random()*1000)
             ]
         })
     }
