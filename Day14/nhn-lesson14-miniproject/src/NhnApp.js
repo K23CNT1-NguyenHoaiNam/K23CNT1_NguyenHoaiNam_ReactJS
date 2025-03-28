@@ -1,42 +1,61 @@
-import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { Link } from 'react-router-dom';
-import NhnCreateUser from './components/NhnCreateUser';
-import NhnListUser from './components/NhnListUser';
+import React, { useState, useEffect } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import axios from "axios";
+import "./App.css";
+import NhnHome from "./components/NhnHome";
+import NhnNavBar from "./components/NhnNavBar";
+import NhnCreateUser from "./components/NhnCreateUser";
+import NhnListUser from "./components/NhnListUser";
+import NhnEditUser from "./components/NhnEditUser";
+import NhnGallery from "./components/NhnGallery";
+import NhnFooter from "./components/NhnFooter"; // ✅ Import Footer
+import background from "./assets/background.gif";
+
 function NhnApp() {
+  const [users, setUsers] = useState([]);
+  const apiUrl =
+    "https://67da099235c87309f52abd1b.mockapi.io/k23cnt1-NguyenHoaiNam/Nhn_Users";
+
+  useEffect(() => {
+    axios
+      .get(apiUrl)
+      .then((response) => setUsers(response.data))
+      .catch((error) => console.error("Lỗi khi lấy dữ liệu:", error));
+  }, []);
+
   return (
     <BrowserRouter>
-      <div className="container border my-3 p-3">
-        <h1 className="alert alert-danger text-center">
-          K23CNT1 - Nguyễn Hoài Nam - 2310900073 - Bài thực hành tổng hợp
-        </h1>
-
-        {/* Thanh điều hướng */}
-        <nav className="navbar navbar-expand-lg bg-dark navbar-dark">
-          <div className="container">
-            <div className="collapse navbar-collapse justify-content-center">
-              <ul className="navbar-nav">
-                <li className="nav-item mx-3">
-                  <Link className="nav-link text-white" to="/">TRANG CHỦ</Link>
-                </li>
-                <li className="nav-item mx-3">
-                  <Link className="nav-link text-white" to="/users">DANH SÁCH USERS</Link>
-                </li>
-                <li className="nav-item mx-3">
-                  <Link className="nav-link text-white" to="/add-user">THÊM MỚI USERS</Link>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </nav>
-
-        {/* Điều hướng trang */}
+      <NhnNavBar />
+      <div
+        className="background-section"
+        style={{
+          backgroundImage: `url(${background})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+          minHeight: "100vh",
+          padding: "20px",
+        }}
+      >
         <Routes>
-          <Route path="/" element={<h2 className="text-center mt-4">Chào mừng đến với trang quản lý Users</h2>} />
-          <Route path="/add-user" element={<NhnCreateUser />} />
-          <Route path="/users" element={<NhnListUser />} />
+          <Route path="/" element={<NhnGallery />} />
+          <Route path="/" element={<NhnHome />} />
+          <Route
+            path="/"
+            element={
+              <h1 className="text-center text-white">
+                !Chào mừng bạn đến với trang chủ quản lý Users!
+              </h1>
+            }
+          />
+          <Route path="/users" element={<NhnListUser users={users} />} />
+          <Route path="/add-user" element={<NhnCreateUser setUsers={setUsers} />} />
+          <Route path="/edit-user/:id" element={<NhnEditUser />} />
         </Routes>
       </div>
+
+      {/* ✅ Thêm Footer vào cuối trang */}
+      <NhnFooter />
     </BrowserRouter>
   );
 }
